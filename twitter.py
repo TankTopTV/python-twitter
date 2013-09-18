@@ -2321,6 +2321,7 @@ class Api(object):
     self._use_gzip       = use_gzip_compression
     self._debugHTTP      = debugHTTP
     self._shortlink_size = 19
+    self.x_access_level = None
 
     self._InitializeRequestHeaders(request_headers)
     self._InitializeUserAgent()
@@ -4641,6 +4642,7 @@ class Api(object):
       raise TwitterError("Api instance must first be given user credentials.")
     url = '%s/account/verify_credentials.json' % self.base_url
     json = self._RequestUrl(url, 'GET')  # No_cache
+    self.x_access_level = json.headers['x-access-level']
     data = self._ParseAndCheckTwitter(json.content)
     return User.NewFromJsonDict(data)
 
